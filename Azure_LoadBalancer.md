@@ -1,5 +1,3 @@
-Chalo Azure Load Balancer ko detail mein samajhte hain — concept se lekar components tak.
-
 ## Azure Load Balancer kya hai?
 
 Load Balancer ek **networking service** hai jo incoming traffic ko multiple backend resources (VMs) mein distribute karta hai. Iska kaam hai high availability aur scalability provide karna — matlab agar tumhare paas multiple VMs hain ek hi application ke liye, toh Load Balancer traffic ko evenly split karta hai unke beech, taaki ek VM overload na ho aur agar ek VM down ho jaaye toh traffic automatically doosri healthy VM pe chala jaaye.
