@@ -1,3 +1,54 @@
+## What is Azure Load Balancer?
+
+Azure Load Balancer is a **networking service** that distributes incoming traffic across multiple backend resources (VMs). Its main job is to provide high availability and scalability — if you have multiple VMs running the same application, the Load Balancer evenly distributes traffic among them, so no single VM gets overloaded, and if one VM goes down, traffic is automatically routed to another healthy VM.
+
+It operates at **Layer 4** (TCP/UDP) — meaning it only looks at IP address and port, not application-level content (like HTTP headers). That's why it's extremely fast.
+
+## Types of Azure Load Balancer
+
+**1. Based on accessibility:**
+
+- **Public Load Balancer**: Handles internet-facing traffic. It has a public IP, so requests coming from outside the internet get distributed to backend VMs. (Example: a website accessible from the internet)
+
+- **Internal Load Balancer (ILB)**: Used only for **private/internal traffic** — within a VNet. It uses a private IP. Used when you need to load balance internal applications (like a database tier or backend services) that shouldn't be directly accessible from the internet.
+
+**2. Based on SKU (pricing tier/features):**
+
+- **Basic Load Balancer**: Free, with limited features, suited for small/dev workloads. (Microsoft is deprecating this — it will be retired by September 2025)
+- **Standard Load Balancer**: Production-grade, supports zone-redundancy, better SLA, security (default deny), and higher scale. This is what's used in production setups today.
+
+## Use (Purpose) of Azure Load Balancer
+
+1. **High Availability**: If one VM fails, traffic is automatically routed to other healthy VMs
+2. **Load Distribution**: Evenly distributes traffic across multiple VMs to improve performance
+3. **Scalability**: As traffic grows, you can add more VMs behind the load balancer
+4. **Health Monitoring**: Continuously checks the health of backend VMs and stops sending traffic to unhealthy ones
+5. **Port Forwarding/NAT**: Also used to forward specific ports to specific VMs
+
+## Components of Azure Load Balancer
+
+1. **Frontend IP Configuration**: The IP address where client traffic is sent — can be a public or private IP
+
+2. **Backend Pool**: A group of VMs or VM scale sets that actually process the traffic. The load balancer distributes traffic within this pool
+
+3. **Health Probes**: Periodically checks whether backend VMs are "healthy" (responding or not). If a VM is unhealthy, the load balancer stops sending it traffic
+
+4. **Load Balancing Rules**: Defines how traffic coming in on a frontend IP+port gets routed to a backend pool and port. The distribution algorithm (default: 5-tuple hash — source IP, source port, destination IP, destination port, protocol) is also decided here
+
+5. **Inbound NAT Rules**: Used to forward traffic on a specific port to a specific VM's specific port (e.g., RDP/SSH access for individual VMs)
+
+6. **Outbound Rules**: Configures outbound internet connectivity (SNAT - Source NAT) for VMs in the backend pool
+
+---
+
+### Quick analogy:
+
+Think of a restaurant where one waiter (the Load Balancer's "frontend") takes customers (traffic) and sends them to different chefs (backend VMs) based on who's available. The waiter regularly checks which chefs are currently able to work (health probe), and if a chef is busy or absent, traffic goes to another chef instead.
+
+In the context of your Azure DevOps + Terraform learning, when you build production-style infrastructure (like that URL Shortener API with potentially multiple VM instances), the Load Balancer would play this exact role — routing traffic to the right VM.
+
+
+
 ## Azure Load Balancer kya hai?
 
 Load Balancer ek **networking service** hai jo incoming traffic ko multiple backend resources (VMs) mein distribute karta hai. Iska kaam hai high availability aur scalability provide karna — matlab agar tumhare paas multiple VMs hain ek hi application ke liye, toh Load Balancer traffic ko evenly split karta hai unke beech, taaki ek VM overload na ho aur agar ek VM down ho jaaye toh traffic automatically doosri healthy VM pe chala jaaye.
